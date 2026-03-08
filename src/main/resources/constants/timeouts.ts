@@ -1,5 +1,6 @@
 export const INSTANT_TIMEOUT = 1000;
 export const SMALL_TIMEOUT = 5000;
+export const MEDIUM_TIMEOUT = 15000;
 export const DEFAULT_TIMEOUT = 30000;
 export const LONG_TIMEOUT = 60000;
 export const VERY_LONG_TIMEOUT = 120000;

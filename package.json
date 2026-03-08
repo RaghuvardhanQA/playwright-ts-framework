@@ -11,6 +11,8 @@
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.2.3",
-    "@types/winston": "^2.4.4"
+    "@types/winston": "^2.4.4",
+    "dotenv": "^17.3.1",
+    "typescript": "^5.9.3"
   }
 }

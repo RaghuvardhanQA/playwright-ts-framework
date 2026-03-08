@@ -6,7 +6,7 @@ export type GoToOptions = Parameters<Page['goto']>[1];
 export type NavigationOptions = Parameters<Page['reload']>[0];
 export type WaitForLoadStateOptions = Parameters<Page['waitForLoadState']>[0];
 
-export type VisibilityOption = { onlyVisible: boolean };
+export type VisibilityOption = { onlyVisible?: boolean };
 export type stabilityOptions = { stable: boolean };
 export type LoadstateOptions = { loadState: WaitForLoadStateOptions };
 

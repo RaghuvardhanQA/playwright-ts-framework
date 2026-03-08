@@ -1,4 +1,10 @@
 
+# Environment variables
+.env
+
+# VSCode
+.vscode/
+
 # Playwright
 node_modules/
 /test-results/

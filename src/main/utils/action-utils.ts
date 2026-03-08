@@ -43,7 +43,7 @@ export async function clickAndNavigate(input: string | Locator, options?: ClickO
 }
 
 export async function fill(input: string | Locator, value: string, options?: FillOptions): Promise<void> {
-  const locator = await getLocatorWithStableAndVisibleOptions(input, options);
+  const locator = getVisibleLocator(input, options);
   await locator.fill(value, options);
 }
 

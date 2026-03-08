@@ -6,7 +6,7 @@ import { logger } from "../resources/setup/custom-logger";
 
 export function getLocator(input: string | Locator, options?: LocatorOptions): Locator {
   const locator = typeof input === 'string' ? getPage().locator(input, options) : input;
-  return options?.onlyVisible ? locator.locator('visible=true') : locator;
+  return options?.onlyVisible ? locator.and(getPage().locator(':visible')) : locator;
 }
 
 export function getVisibleLocator(input: string | Locator, options?: LocatorOptions): Locator {
