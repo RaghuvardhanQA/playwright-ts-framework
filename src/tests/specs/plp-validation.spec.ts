@@ -28,7 +28,7 @@ test.describe('Sample tests for automationexercise page @smoke', () => {
         await ProductSearchPage.verifySortOptionIsSelected("Price (Low > High)");
     });
 
-    test.only('Verify that user can filter in stock products and view product details', async () => {
+    test('Verify that user can filter in stock products and view product details', async () => {
         await MyAccountPage.searchForProduct("Mac book");
         await ProductSearchPage.verifyProductResultsAreDisplayed();
         await ProductSearchPage.filterByInStock();
