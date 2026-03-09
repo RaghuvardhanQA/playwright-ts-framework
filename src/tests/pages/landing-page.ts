@@ -3,6 +3,10 @@ import { click, hover } from "../../main/utils/action-utils";
 import { expectPageToHaveTitle } from "../../main/utils/expect-utils";
 import { navigateToURL, waitForPageLoadState } from "../../main/utils/page-utils";
 
+// --- Locators ---
+const MY_ACCOUNT_BTN  = "//*[@role='button'][contains(@href,'account')]";
+const LOGIN_LINK      = "//a[contains(@href,'account/login')]";
+
 export async function navigateToLandingPage() {
     await navigateToURL('/');
 }
@@ -13,6 +17,6 @@ export async function verifyLandingPage() {
 }
 
 export async function clickLogin(){
-    await hover("//*[@role='button'][contains(@href,'account')]");
-    await click("//a[contains(@href,'account/login')]");
+    await hover(MY_ACCOUNT_BTN);
+    await click(LOGIN_LINK);
 }

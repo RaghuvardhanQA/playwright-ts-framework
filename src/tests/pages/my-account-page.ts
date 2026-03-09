@@ -1,6 +1,7 @@
 import { fill, fillAndEnter } from "../../main/utils/action-utils";
 import { expectPageToHaveTitle } from "../../main/utils/expect-utils";
 
+// --- Locators ---
 const SEARCH_INPUT = "input[name='search']";
 
 export async function validateMyAccountPage() {
