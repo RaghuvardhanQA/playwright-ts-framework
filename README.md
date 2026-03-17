@@ -2,8 +2,6 @@
 
 End-to-end test automation framework built with Playwright and TypeScript, targeting the [LambdaTest Ecommerce Playground](https://ecommerce-playground.lambdatest.com). The framework follows the Page Object Model pattern and is designed to be readable, maintainable, and easy to extend.
 
----
-
 ## What's in here
 
 The framework is built around a few core ideas:
