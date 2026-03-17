@@ -1,4 +1,7 @@
 
+# Claude Code context (local only)
+CLAUDE.md
+
 # Environment variables
 .env
 
