@@ -129,6 +129,10 @@ export async function getWindowSize(): Promise<{ width: number; height: number }
   });
 }
 
+export async function waitForNavigationEvent(options?: NavigationOptions): Promise<void> {
+  await getPage().waitForEvent('framenavigated', options);
+}
+
 export async function saveStorageState(path?: string): Promise<ReturnType<BrowserContext['storageState']>> {
   return await getPage().context().storageState({ path: path });
 }

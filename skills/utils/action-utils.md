@@ -5,12 +5,14 @@ Import: `import * as ActionUtils from '@src/main/utils/action-utils';`
 ## Clicking
 
 ```typescript
-await ActionUtils.click(locator);                        // Standard click
-await ActionUtils.clickAndNavigate(locator);             // Click + wait for navigation
+await ActionUtils.click(locator);                        // Standard click — use when staying on the same page
+await ActionUtils.clickAndNavigate(locator);             // Click + wait for navigation — use when navigating to a new page
 await ActionUtils.clickByJS(locator);                    // JS click (bypass overlays)
 await ActionUtils.doubleClick(locator);
 await ActionUtils.hover(locator);
 ```
+
+> **Rule**: Use `clickAndNavigate` when the click causes a page/URL change (e.g. submitting a login form, clicking a product link). Use `click` for all other interactions that stay on the same page (e.g. filters, checkboxes, dropdowns).
 
 ## Typing
 

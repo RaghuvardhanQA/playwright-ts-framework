@@ -5,8 +5,9 @@ import { expectPageToContainURL, expectElementToBeVisible } from "../../main/uti
 // --- Locators ---
 const PLP_HDR             = "//h1[contains(normalize-space(),'Search')]";
 const PRODUCT_CARDS       = ".product-thumb";
-const FIRST_PRODUCT_LINK  = ".product-thumb h4 a";
+const PRODUCT_LINK        = ".product-thumb h4 a";
 const NO_RESULTS_MSG      = "//p[contains(text(),'There is no product that matches')]";
+const RESULTS_COUNT       = "div.col-sm-6.text-right";
 
 export async function verifySearchResultsPageIsDisplayed(): Promise<void> {
     await expectPageToContainURL('route=product/search');
@@ -32,10 +33,12 @@ export async function verifySortOptionIsSelected(option: string): Promise<void> 
 }
 
 export async function filterByInStock(): Promise<void> {
-    await clickAndNavigate(getLocator("label.custom-control-label", { hasText: 'In stock' }).last());
+    const countTextBefore = await getLocator(RESULTS_COUNT).innerText();
+    await click(getLocator("label.custom-control-label", { hasText: 'In stock' }).last());
+    await getLocator(RESULTS_COUNT).filter({ hasNotText: countTextBefore }).waitFor({ state: 'visible' });
     await waitForElementToBeVisible(getLocator(PRODUCT_CARDS).first());
 }
 
-export async function clickFirstProduct(): Promise<void> {
-    await clickAndNavigate(getLocator(FIRST_PRODUCT_LINK).first());
+export async function clickProduct(): Promise<void> {
+    await clickAndNavigate(getLocator(PRODUCT_LINK).first());
 }

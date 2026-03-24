@@ -1,5 +1,5 @@
 import { DEFAULT_TIMEOUT } from "../../main/resources/constants/timeouts";
-import { click, hover } from "../../main/utils/action-utils";
+import { clickAndNavigate, hover } from "../../main/utils/action-utils";
 import { expectPageToHaveTitle } from "../../main/utils/expect-utils";
 import { navigateToURL, waitForPageLoadState } from "../../main/utils/page-utils";
 
@@ -18,5 +18,5 @@ export async function verifyLandingPage() {
 
 export async function clickLogin(){
     await hover(MY_ACCOUNT_BTN);
-    await click(LOGIN_LINK);
+    await clickAndNavigate(LOGIN_LINK);
 }

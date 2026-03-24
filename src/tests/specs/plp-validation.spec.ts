@@ -32,8 +32,7 @@ test.describe('Sample tests for automationexercise page @smoke', () => {
         await MyAccountPage.searchForProduct("Mac book");
         await ProductSearchPage.verifyProductResultsAreDisplayed();
         await ProductSearchPage.filterByInStock();
-        await ProductSearchPage.verifyProductResultsAreDisplayed();
-        await ProductSearchPage.clickFirstProduct();
+        await ProductSearchPage.clickProduct();
         await ProductPage.verifyProductPageIsDisplayed();
         await ProductPage.verifyAddToCartIsEnabled();
     });

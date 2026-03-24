@@ -54,3 +54,4 @@ export async function verifyLoginSuccess(): Promise<void> {
 4. **Prefer XPath for complex selectors**, CSS for simple ones
 5. **Locator selectors as constants** at the top of each file
 6. **One page object file per page** — search triggers in `my-account-page.ts`, but results live in `search-results-page.ts`
+7. **Use `clickAndNavigate` when the click causes a page/URL change** (e.g. login button, product link, nav links). Use `click` for same-page interactions (e.g. filters, checkboxes, dropdowns)
