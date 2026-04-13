@@ -1,5 +1,5 @@
-import { fill, fillAndEnter } from "../../main/utils/action-utils";
-import { expectPageToHaveTitle } from "../../main/utils/expect-utils";
+import { fill, fillAndEnter } from "#utils/action-utils";
+import { expectPageToHaveTitle } from "#utils/expect-utils";
 
 // --- Locators ---
 const SEARCH_INPUT = "input[name='search']";

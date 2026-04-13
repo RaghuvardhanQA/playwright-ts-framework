@@ -1,6 +1,6 @@
-import { getPage } from '../../main/utils/page-utils.js';
-import { logger } from '../../main/resources/setup/custom-logger.js';
-import { Cookie, LocalStorage, SessionData } from './session-types.js';
+import { getPage } from '#utils/page-utils';
+import { logger } from '#setup/custom-logger';
+import { Cookie, LocalStorage, SessionData } from '#storage-setup/session-types';
 import * as fs from 'fs';
 import path from 'path';
 

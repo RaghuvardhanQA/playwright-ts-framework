@@ -1,7 +1,7 @@
-import { DEFAULT_TIMEOUT } from "../../main/resources/constants/timeouts";
-import { clickAndNavigate, hover } from "../../main/utils/action-utils";
-import { expectPageToHaveTitle } from "../../main/utils/expect-utils";
-import { navigateToURL, waitForPageLoadState } from "../../main/utils/page-utils";
+import { DEFAULT_TIMEOUT } from "#constants/timeouts";
+import { clickAndNavigate, hover } from "#utils/action-utils";
+import { expectPageToHaveTitle } from "#utils/expect-utils";
+import { navigateToURL, waitForPageLoadState } from "#utils/page-utils";
 
 // --- Locators ---
 const MY_ACCOUNT_BTN  = "//*[@role='button'][contains(@href,'account')]";

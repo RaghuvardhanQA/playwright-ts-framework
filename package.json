@@ -1,11 +1,11 @@
 {
-  "name": "typescript",
+  "name": "playwright-ts-framework",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright TypeScript Test Automation Framework",
   "main": "index.js",
   "scripts": {},
   "keywords": [],
-  "author": "",
+  "author": "RaghuvardhanQA",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {

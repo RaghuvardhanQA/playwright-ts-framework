@@ -1,8 +1,8 @@
 import { Expect, expect, Locator, TestInfo } from "@playwright/test";
-import { ExpectOptions, ExpectTextOptions, SoftOption, TimeoutOption } from "../resources/parameters/optional-parameters";
-import { getLocator } from "./element-utils";
-import { getAllPages, getPage } from "./page-utils";
-import { getAlertText } from "./action-utils";
+import { ExpectOptions, ExpectTextOptions, SoftOption, TimeoutOption } from "#resources/parameters/optional-parameters";
+import { getLocator } from "#utils/element-utils";
+import { getAllPages, getPage } from "#utils/page-utils";
+import { getAlertText } from "#utils/action-utils";
 
 
 function getExpectWithSoftOption(options?: SoftOption): Expect {

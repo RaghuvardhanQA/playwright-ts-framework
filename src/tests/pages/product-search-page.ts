@@ -1,6 +1,6 @@
-import { click, clickAndNavigate, selectByText } from "../../main/utils/action-utils";
-import { getLocator, getLocatorByLabel, waitForElementToBeVisible } from "../../main/utils/element-utils";
-import { expectPageToContainURL, expectElementToBeVisible } from "../../main/utils/expect-utils";
+import { click, clickAndNavigate, selectByText } from "#utils/action-utils";
+import { getLocator, getLocatorByLabel, waitForElementToBeVisible } from "#utils/element-utils";
+import { expectPageToContainURL, expectElementToBeVisible } from "#utils/expect-utils";
 
 // --- Locators ---
 const PLP_HDR             = "//h1[contains(normalize-space(),'Search')]";

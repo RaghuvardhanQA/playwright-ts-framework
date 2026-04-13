@@ -11,14 +11,13 @@
  *     { name: 'chromium', dependencies: ['login-setup'], ... },
  *   ]
  */
-import { test as setup } from '../../main/resources/setup/page-setup.js';
-import { saveStorageState } from '../../main/utils/page-utils.js';
-import { logger } from '../../main/resources/setup/custom-logger.js';
-import { getUserAuthPath, isUserStorageStateValid, User, STORAGE_STATE_PATH } from './cookie-utils.js';
+import { test as setup } from '#pagesetup';
+import { saveStorageState, navigateToURL, waitForPageLoadState } from '#utils/page-utils';
+import { logger } from '#setup/custom-logger';
+import { getUserAuthPath, isUserStorageStateValid, User, STORAGE_STATE_PATH } from '#storage-setup/cookie-utils';
 import * as fs from 'fs';
-import { fill, clickAndNavigate } from '../../main/utils/action-utils.js';
-import { navigateToURL, waitForPageLoadState } from '../../main/utils/page-utils.js';
-import { expectPageToHaveTitle } from '../../main/utils/expect-utils.js';
+import { fill, clickAndNavigate } from '#utils/action-utils';
+import { expectPageToHaveTitle } from '#utils/expect-utils';
 
 // ── Test Data ──────────────────────────────────────────────────────────────────
 

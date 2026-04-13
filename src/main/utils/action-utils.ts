@@ -1,8 +1,8 @@
 import test, { Locator } from "@playwright/test";
-import { ActionOptions, CheckOptions, ClickOptions, ClearOptions, DragOptions, DoubleClickOptions, FillOptions, HoverOptions, PressSequentiallyOptions, SelectOptions, TimeoutOption, UploadOptions, UploadValues, VisibilityOption } from "../resources/parameters/optional-parameters";
-import { getLocator, getVisibleLocator, waitForElementToBeStabled } from "./element-utils";
-import { getDefaultLoadState, getPage } from "./page-utils";
-import { DEFAULT_TIMEOUT, SMALL_TIMEOUT } from "../resources/constants/timeouts";
+import { ActionOptions, CheckOptions, ClickOptions, ClearOptions, DragOptions, DoubleClickOptions, FillOptions, HoverOptions, PressSequentiallyOptions, SelectOptions, TimeoutOption, UploadOptions, UploadValues, VisibilityOption } from "#resources/parameters/optional-parameters";
+import { getLocator, getVisibleLocator, waitForElementToBeStabled } from "#utils/element-utils";
+import { getDefaultLoadState, getPage } from "#utils/page-utils";
+import { DEFAULT_TIMEOUT, SMALL_TIMEOUT } from "#constants/timeouts";
 
 async function getLocatorWithStableAndVisibleOptions(
   input: string | Locator,

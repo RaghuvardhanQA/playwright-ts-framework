@@ -1,8 +1,8 @@
 import { test, Frame, FrameLocator, Locator, selectors } from "@playwright/test";
-import { FrameOptions, GetByPlaceholderOptions, GetByRoleOptions, GetByRoleTypes, GetByTextOptions, LocatorOptions, LocatorWaitOptions, TimeoutOption } from "../resources/parameters/optional-parameters";
-import { defaultVisibleOnlyOption, getPage, wait } from "./page-utils";
-import { SMALL_TIMEOUT } from "../resources/constants/timeouts";
-import { logger } from "../resources/setup/custom-logger";
+import { FrameOptions, GetByPlaceholderOptions, GetByRoleOptions, GetByRoleTypes, GetByTextOptions, LocatorOptions, LocatorWaitOptions, TimeoutOption } from "#resources/parameters/optional-parameters";
+import { defaultVisibleOnlyOption, getPage, wait } from "#utils/page-utils";
+import { SMALL_TIMEOUT } from "#constants/timeouts";
+import { logger } from "#setup/custom-logger";
 
 export function getLocator(input: string | Locator, options?: LocatorOptions): Locator {
   const locator = typeof input === 'string' ? getPage().locator(input, options) : input;

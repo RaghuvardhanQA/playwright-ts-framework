@@ -1,6 +1,6 @@
 import { BrowserContext, expect, Response,Page } from "@playwright/test";
-import { NavigationOptions, SwitchPageOptions, WaitForLoadStateOptions, GoToOptions } from "../resources/parameters/optional-parameters";
-import { SMALL_TIMEOUT } from "../resources/constants/timeouts";
+import { NavigationOptions, SwitchPageOptions, WaitForLoadStateOptions, GoToOptions } from "#resources/parameters/optional-parameters";
+import { SMALL_TIMEOUT } from "#constants/timeouts";
 
 let page: Page;
 

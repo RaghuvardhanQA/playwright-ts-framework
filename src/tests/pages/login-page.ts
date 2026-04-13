@@ -1,9 +1,8 @@
-import { env } from "node:process";
-import { clickAndNavigate, fill } from "../../main/utils/action-utils";
-import { expectPageToHaveTitle } from "../../main/utils/expect-utils";
-import { waitForElementToBeVisible } from "../../main/utils/element-utils";
-import { SMALL_TIMEOUT } from "../../main/resources/constants/timeouts";
-import { getPage, waitForPageLoadState } from "../../main/utils/page-utils";
+import { clickAndNavigate, fill } from "#utils/action-utils";
+import { expectPageToHaveTitle } from "#utils/expect-utils";
+import { waitForElementToBeVisible } from "#utils/element-utils";
+import { SMALL_TIMEOUT } from "#constants/timeouts";
+import { getPage, waitForPageLoadState } from "#utils/page-utils";
 
 // --- Locators ---
 const EMAIL_INPUT    = "input[name='email']";

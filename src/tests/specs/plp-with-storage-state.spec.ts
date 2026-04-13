@@ -4,14 +4,14 @@
  * Uses saved auth state with auto-login fallback for server-side sessions.
  * If the session cookie has expired, performs a fresh login within the same context.
  */
-import * as LoginPage from '../pages/login-page';
-import * as MyAccountPage from '../pages/my-account-page';
-import * as ProductSearchPage from '../pages/product-search-page';
-import * as ProductPage from '../pages/product-page';
-import { test } from '../../main/resources/setup/page-setup.js';
-import { navigateToURL, getPage, saveStorageState } from '../../main/utils/page-utils.js';
-import { expectPageToHaveTitle } from '../../main/utils/expect-utils.js';
-import { getUserAuthPath } from '../storage-setup/cookie-utils.js';
+import * as LoginPage from '#pages/login-page';
+import * as MyAccountPage from '#pages/my-account-page';
+import * as ProductSearchPage from '#pages/product-search-page';
+import * as ProductPage from '#pages/product-page';
+import { test } from '#pagesetup';
+import { navigateToURL, getPage, saveStorageState } from '#utils/page-utils';
+import { expectPageToHaveTitle } from '#utils/expect-utils';
+import { getUserAuthPath } from '#storage-setup/cookie-utils';
 
 const defaultUser = { username: 'default' };
 const storagePath = getUserAuthPath(defaultUser);

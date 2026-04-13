@@ -1,4 +1,4 @@
-import { getPage } from './page-utils';
+import { getPage } from '#utils/page-utils';
 import { APIRequestContext, APIResponse } from '@playwright/test';
 
 export function getAPIRequestContext(): APIRequestContext {

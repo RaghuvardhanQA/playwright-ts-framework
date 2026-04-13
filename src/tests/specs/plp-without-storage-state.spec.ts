@@ -5,12 +5,12 @@
  * This is the traditional approach — slower but doesn't depend on saved auth.
  * Use this when you need to test the actual login flow or when storage state is unavailable.
  */
-import * as LandingPage from '../pages/landing-page';
-import * as LoginPage from '../pages/login-page';
-import * as MyAccountPage from '../pages/my-account-page';
-import * as ProductSearchPage from '../pages/product-search-page';
-import * as ProductPage from '../pages/product-page';
-import { test } from '../../main/resources/setup/page-setup.js';
+import * as LandingPage from '#pages/landing-page';
+import * as LoginPage from '#pages/login-page';
+import * as MyAccountPage from '#pages/my-account-page';
+import * as ProductSearchPage from '#pages/product-search-page';
+import * as ProductPage from '#pages/product-page';
+import { test } from '#pagesetup';
 
 test.describe.configure({ mode: 'parallel' });
 

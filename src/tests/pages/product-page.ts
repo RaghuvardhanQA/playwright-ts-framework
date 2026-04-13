@@ -1,6 +1,6 @@
-import { getLocator } from "../../main/utils/element-utils";
-import { expectPageToContainURL, expectElementToBeVisible, expectElementToBeEnabled } from "../../main/utils/expect-utils";
-import { getPage } from "../../main/utils/page-utils";
+import { getLocator } from "#utils/element-utils";
+import { expectPageToContainURL, expectElementToBeVisible, expectElementToBeEnabled } from "#utils/expect-utils";
+import { getPage } from "#utils/page-utils";
 
 // --- Locators ---
 const PRODUCT_TITLE   = 'h1.h3';
