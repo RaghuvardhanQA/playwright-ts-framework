@@ -15,6 +15,7 @@
       "#constants/*": ["./src/main/resources/constants/*"],
       "#setup/*": ["./src/main/resources/setup/*"],
       "#pagesetup": ["./src/main/resources/setup/page-setup.ts"],
+      "#testdata/*": ["./src/tests/testdata/*"],
       "#storage-setup/*": ["./src/tests/storage-setup/*"],
       "#playwright-config": ["./playwright.config.ts"]
     }

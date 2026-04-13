@@ -3,7 +3,7 @@
  *
  * Performs full UI login in beforeEach for every test.
  * This is the traditional approach — slower but doesn't depend on saved auth.
- * Use this when you need to test the actual login flow or when storage state is unavailable.
+ * Tests are parameterised using product test data for broader coverage.
  */
 import * as LandingPage from '#pages/landing-page';
 import * as LoginPage from '#pages/login-page';
@@ -11,6 +11,7 @@ import * as MyAccountPage from '#pages/my-account-page';
 import * as ProductSearchPage from '#pages/product-search-page';
 import * as ProductPage from '#pages/product-page';
 import { test } from '#pagesetup';
+import { validProducts, invalidProducts, sortOptions } from '#testdata/plp-test-data';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -27,20 +28,34 @@ test.describe('PLP Validation — Without Storage State (Full UI Login) @regress
     await MyAccountPage.validateMyAccountPage();
   });
 
-  test('Verify that user is able to search for products', async () => {
-    await MyAccountPage.searchForProduct('Mac book');
-    await ProductSearchPage.verifyProductResultsAreDisplayed();
-  });
+  // ── Parameterised product search tests ─────────────────────────────────────
+  for (const product of validProducts) {
+    test(`Verify search results are displayed for "${product.name}"`, async () => {
+      await MyAccountPage.searchForProduct(product.searchTerm);
+      await ProductSearchPage.verifyProductResultsAreDisplayed();
+    });
+  }
 
-  test('Verify that user is able to filter for products', async () => {
-    await MyAccountPage.searchForProduct('Mac book');
-    await ProductSearchPage.verifyProductResultsAreDisplayed();
-    await ProductSearchPage.selectSortOption('Price (Low > High)');
-    await ProductSearchPage.verifySortOptionIsSelected('Price (Low > High)');
-  });
+  // ── Parameterised negative search tests ────────────────────────────────────
+  for (const product of invalidProducts) {
+    test(`Verify no results message for "${product.name}"`, async () => {
+      await MyAccountPage.searchForProduct(product.searchTerm);
+      await ProductSearchPage.verifyNoResultsMessageIsDisplayed();
+    });
+  }
 
-  test('Verify that user can filter in stock products and view product details', async () => {
-    await MyAccountPage.searchForProduct('Mac book');
+  // ── Parameterised sort option tests ────────────────────────────────────────
+  for (const option of sortOptions) {
+    test(`Verify sort option "${option.label}" works correctly`, async () => {
+      await MyAccountPage.searchForProduct(validProducts[0].searchTerm);
+      await ProductSearchPage.verifyProductResultsAreDisplayed();
+      await ProductSearchPage.selectSortOption(option.label);
+      await ProductSearchPage.verifySortOptionIsSelected(option.label);
+    });
+  }
+
+  test('Verify user can filter in-stock products and view product details', async () => {
+    await MyAccountPage.searchForProduct(validProducts[0].searchTerm);
     await ProductSearchPage.verifyProductResultsAreDisplayed();
     await ProductSearchPage.filterByInStock();
     await ProductSearchPage.clickProduct();
