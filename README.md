@@ -196,6 +196,66 @@ Full docs in [`skills/`](skills/) — broken down by utility, pattern, and use c
 
 ---
 
+## Skills & AI Agent Support
+
+This framework ships with a `SKILL.md` file that makes it natively usable by AI coding agents (Claude Code and others). The skill teaches the agent everything it needs to write, run, and debug tests in this repo without needing extra explanation.
+
+### What the skill covers
+
+| Category | Files |
+|----------|-------|
+| **Core patterns** | POM structure, spec pattern, design rules, project structure |
+| **Utilities** | action-utils, element-utils, expect-utils, page-utils, api-utils |
+| **Locator guidance** | Locator strategy, browser token optimisation |
+| **Browser automation** | Playwright CLI — sessions, storage state, tracing, video, request mocking, test generation |
+| **Target application** | URL routes, common selectors, key user flows |
+| **CI/CD** | Running tests locally, GitHub Actions with sharding |
+
+### Skills directory layout
+
+```
+skills/
+├── core/
+│   ├── design-rules.md          # Framework-wide conventions and rules
+│   ├── page-object-model.md     # POM pattern and function structure
+│   ├── project-structure.md     # Directory layout and import paths
+│   └── test-spec-pattern.md     # How to write describe/test blocks
+├── utils/
+│   ├── action-utils.md          # click, fill, select, upload, dialogs
+│   ├── element-utils.md         # getLocator, waits, state checks
+│   ├── expect-utils.md          # assertions
+│   ├── page-utils.md            # navigation, storage state, load states
+│   ├── api-utils.md             # HTTP requests
+│   ├── locator-strategy.md      # Choosing the right locator
+│   └── browser-strategy.md      # Minimising browser token usage
+├── reference/
+│   └── target-application.md    # Site URLs, selectors, user flows
+├── playwright-cli/
+│   ├── SKILL.md                 # Playwright CLI quick start
+│   └── references/
+│       ├── request-mocking.md
+│       ├── running-code.md
+│       ├── session-management.md
+│       ├── storage-state.md
+│       ├── test-generation.md
+│       ├── tracing.md
+│       └── video-recording.md
+└── ci-cd/
+    └── running-tests.md         # Local run commands and GitHub Actions setup
+```
+
+### Test validation loop (for agents)
+
+When an agent writes or modifies tests it must follow this loop before committing:
+
+1. Write the page object and spec
+2. Run `npx playwright test <spec> --project=chromium --reporter=line`
+3. Review failures — use `--headed` or trace viewer for visual debugging
+4. Fix and re-run
+5. **Run 3 times** for stability verification before committing
+
+---
+
 ## CI / CD
 
 Tests run on every push and pull request to `main` via GitHub Actions. The job matrix splits tests across **3 shards** running in parallel, then merges the results into a single HTML report.
