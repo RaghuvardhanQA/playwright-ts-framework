@@ -36,6 +36,8 @@ Comprehensive guidance for working in this Playwright + TypeScript e-commerce te
 | **Asserting visibility, text, state, URL** | [expect-utils.md](skills/utils/expect-utils.md) |
 | **Navigating pages, multi-tab, wait states** | [page-utils.md](skills/utils/page-utils.md) |
 | **HTTP GET / POST / PUT / DELETE requests** | [api-utils.md](skills/utils/api-utils.md) |
+| **Choosing the best locator strategy** | [locator-strategy.md](skills/utils/locator-strategy.md) |
+| **Optimizing browser token usage** | [browser-strategy.md](skills/utils/browser-strategy.md) |
 
 ### Target Application
 
@@ -46,6 +48,21 @@ Comprehensive guidance for working in this Playwright + TypeScript e-commerce te
 | **Finding page URLs and routes** | [target-application.md](skills/reference/target-application.md) |
 | **Common selectors for auth, cart, checkout** | [target-application.md](skills/reference/target-application.md) |
 | **Key user flows to automate** | [target-application.md](skills/reference/target-application.md) |
+
+### Browser Automation (playwright-cli)
+
+**When to use**: Navigating websites, interacting with pages, filling forms, taking screenshots, mocking requests, recording traces
+
+| Activity | Reference Files |
+|----------|----------------|
+| **CLI commands and quick start** | [SKILL.md](skills/playwright-cli/SKILL.md) |
+| **Mocking/intercepting network requests** | [request-mocking.md](skills/playwright-cli/references/request-mocking.md) |
+| **Running custom Playwright code** | [running-code.md](skills/playwright-cli/references/running-code.md) |
+| **Managing browser sessions** | [session-management.md](skills/playwright-cli/references/session-management.md) |
+| **Cookies, localStorage, storage state** | [storage-state.md](skills/playwright-cli/references/storage-state.md) |
+| **Auto-generating test code** | [test-generation.md](skills/playwright-cli/references/test-generation.md) |
+| **Capturing execution traces** | [tracing.md](skills/playwright-cli/references/tracing.md) |
+| **Recording video** | [video-recording.md](skills/playwright-cli/references/video-recording.md) |
 
 ### CI/CD & Execution
 
@@ -74,7 +91,19 @@ What are you doing?
 │   ├── Get locator / wait → skills/utils/element-utils.md
 │   ├── Assert something → skills/utils/expect-utils.md
 │   ├── Navigate / tabs → skills/utils/page-utils.md
-│   └── HTTP request → skills/utils/api-utils.md
+│   ├── HTTP request → skills/utils/api-utils.md
+│   ├── Choose locator strategy → skills/utils/locator-strategy.md
+│   └── Browser token optimization → skills/utils/browser-strategy.md
+│
+├── Browser automation (playwright-cli)?
+│   ├── Commands / quick start → skills/playwright-cli/SKILL.md
+│   ├── Mock requests → skills/playwright-cli/references/request-mocking.md
+│   ├── Run custom code → skills/playwright-cli/references/running-code.md
+│   ├── Manage sessions → skills/playwright-cli/references/session-management.md
+│   ├── Storage / cookies → skills/playwright-cli/references/storage-state.md
+│   ├── Generate tests → skills/playwright-cli/references/test-generation.md
+│   ├── Tracing → skills/playwright-cli/references/tracing.md
+│   └── Video recording → skills/playwright-cli/references/video-recording.md
 │
 ├── Looking for a selector or URL?
 │   └── skills/reference/target-application.md

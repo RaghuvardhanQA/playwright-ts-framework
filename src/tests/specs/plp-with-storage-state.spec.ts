@@ -1,8 +1,8 @@
 /**
- * PLP Validation — Uses Storage State with auto-login fallback
+ * PLP Validation — WITH Storage State
  *
- * Attempts to use saved auth state. If the server-side session has expired,
- * falls back to a fresh UI login within the same browser context.
+ * Uses saved auth state with auto-login fallback for server-side sessions.
+ * If the session cookie has expired, performs a fresh login within the same context.
  */
 import * as LoginPage from '../pages/login-page';
 import * as MyAccountPage from '../pages/my-account-page';
@@ -10,12 +10,14 @@ import * as ProductSearchPage from '../pages/product-search-page';
 import * as ProductPage from '../pages/product-page';
 import { test } from '../../main/resources/setup/page-setup.js';
 import { navigateToURL, getPage, saveStorageState } from '../../main/utils/page-utils.js';
+import { expectPageToHaveTitle } from '../../main/utils/expect-utils.js';
 import { getUserAuthPath } from '../storage-setup/cookie-utils.js';
 
 const defaultUser = { username: 'default' };
 const storagePath = getUserAuthPath(defaultUser);
 
-test.describe('Sample tests for automationexercise page @smoke', () => {
+// ── Authenticated tests ────────────────────────────────────────────────────────
+test.describe('PLP Validation — With Storage State @smoke', () => {
 
   test.beforeEach('Navigate to My Account with auto-login fallback', async () => {
     await navigateToURL('/index.php?route=account/account');
@@ -47,5 +49,15 @@ test.describe('Sample tests for automationexercise page @smoke', () => {
     await ProductSearchPage.clickProduct();
     await ProductPage.verifyProductPageIsDisplayed();
     await ProductPage.verifyAddToCartIsEnabled();
+  });
+});
+
+// ── Unauthenticated tests — separate describe with empty storageState ──────────
+test.describe('PLP Validation — Without Storage State @smoke', () => {
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  test('Verify that unauthenticated user cannot access My Account page', async () => {
+    await navigateToURL('/index.php?route=account/account');
+    await expectPageToHaveTitle('Account Login');
   });
 });

@@ -1,56 +1,171 @@
-# ElementUtils — Locators & Waits
+# Element Utils Reference
 
-Import: `import * as ElementUtils from '@src/main/utils/element-utils';`
+Source: `src/main/utils/element-utils.ts`
 
-## Getting Locators
+## Overview
+
+Element utils provide functions for finding elements, extracting data, checking state, and waiting. All functions accept `string | Locator` as the `input` parameter.
+
+## Locator Functions
+
+### `getLocator(input: string | Locator, options?: LocatorOptions): Locator`
+
+Core function. If `input` is a string, creates a locator via `page.locator(input)`. If `input` is already a Locator, returns it as-is. When `onlyVisible: true`, appends `:visible` filter.
+
+### `getVisibleLocator(input: string | Locator, options?: LocatorOptions): Locator`
+
+Same as `getLocator` but defaults to `onlyVisible: true`. This is what action functions use internally.
+
+### `getLocatorByTestId(testId: string | RegExp, attributeName?: string): Locator`
+
+Uses `page.getByTestId()`. Optionally sets a custom test ID attribute name via `selectors.setTestIdAttribute()`.
+
+### `getLocatorByText(text: string | RegExp, options?: GetByTextOptions): Locator`
+
+Uses `page.getByText()`. Finds elements by their text content.
+
+### `getLocatorByRole(role: GetByRoleTypes, options?: GetByRoleOptions): Locator`
+
+Uses `page.getByRole()`. Finds elements by ARIA role.
 
 ```typescript
-const loc = await ElementUtils.getLocator('//xpath or css');
-const loc = await ElementUtils.getLocator('css', { hasText: 'label text' });
-const loc = await ElementUtils.getVisibleLocator('css');           // Filters to visible only
-const loc = await ElementUtils.getLocatorByText('Submit');
-const loc = await ElementUtils.getLocatorByRole('button', { name: 'Add' });
-const loc = await ElementUtils.getLocatorByLabel('Email');
-const loc = await ElementUtils.getLocatorByPlaceholder('Enter email');
-const loc = await ElementUtils.getLocatorByTestId('submit-btn');
+const btn = getLocatorByRole('button', { name: 'Submit' });
+const link = getLocatorByRole('link', { name: /learn more/i });
 ```
+
+### `getLocatorByLabel(text: string | RegExp, options?: GetByRoleOptions): Locator`
+
+Uses `page.getByLabel()`. Finds form elements by their associated label.
+
+### `getLocatorByPlaceholder(text: string | RegExp, options?: GetByPlaceholderOptions): Locator`
+
+Uses `page.getByPlaceholder()`. Finds input elements by placeholder text.
+
+### `getAllLocators(input: string | Locator, options?): Promise<Locator[]>`
+
+Returns all matching locators as an array. Waits for at least the first element to be attached before resolving.
+
+Options include `waitForLocator?: boolean` (default `true`) and `timeout?: number`.
 
 ## Text Extraction
 
-```typescript
-const text  = await ElementUtils.getText(locator);
-const texts = await ElementUtils.getAllTexts(locator);            // Returns string[]
-const val   = await ElementUtils.getInputValue(locator);
-const attr  = await ElementUtils.getAttribute(locator, 'href');
-```
+### `getText(input, options?: TimeoutOption): Promise<string>`
+
+Returns trimmed `innerText` of the element.
+
+### `getAllTexts(input, options?: LocatorWaitOptions): Promise<string[]>`
+
+Returns trimmed `allInnerTexts()` of all matching elements.
+
+### `getInputValue(input, options?: TimeoutOption): Promise<string>`
+
+Returns trimmed input value of a form element.
+
+### `getAllInputValues(input, options?: TimeoutOption): Promise<string[]>`
+
+Returns input values of all matching form elements.
+
+### `getAttribute(input, attributeName: string, options?: TimeoutOption): Promise<string | null>`
+
+Returns trimmed attribute value, or `null` if not present.
 
 ## State Checks (return boolean)
 
-```typescript
-const visible  = await ElementUtils.isElementVisible(locator);
-const hidden   = await ElementUtils.isElementHidden(locator);
-const checked  = await ElementUtils.isElementChecked(locator);
-const attached = await ElementUtils.isElementAttached(locator);
-```
+### `isElementVisible(input, options?: TimeoutOption): Promise<boolean>`
 
-## Waits
+Polls visibility until `true` or timeout. Returns `false` on timeout.
 
-```typescript
-await ElementUtils.waitForElementToBeVisible(locator);
-await ElementUtils.waitForElementToBeHidden(locator);
-await ElementUtils.waitForElementToBeStabled(locator);           // Waits for position to stop moving
-```
+### `isElementHidden(input, options?: TimeoutOption): Promise<boolean>`
 
-## Frames / iframes
+Polls hidden state until `true` or timeout. Returns `false` on timeout.
 
-```typescript
-const frame    = await ElementUtils.getFrame('frame-name');
-const frameLoc = await ElementUtils.getFrameLocator('iframe#id');
-const locInFrame = await ElementUtils.getLocatorInFrame('iframe#id', 'button.submit');
-```
+### `isElementChecked(input, options?: TimeoutOption): Promise<boolean>`
+
+Returns `true` if element is visible and checked. Returns `false` otherwise.
+
+### `isElementAttached(input, options?: TimeoutOption): Promise<boolean>`
+
+Returns `true` if element is attached to DOM within timeout. Returns `false` otherwise.
+
+## Wait Functions
+
+### `waitForElementToBeVisible(input, options?: TimeoutOption): Promise<void>`
+
+Waits until element is visible. Throws on timeout.
+
+### `waitForElementToBeHidden(input, options?: TimeoutOption): Promise<void>`
+
+Waits until element is hidden. Throws on timeout.
+
+### `waitForElementToBeAttached(input, options?: TimeoutOption): Promise<void>`
+
+Waits until element is attached to DOM. Throws on timeout.
+
+### `waitForElementToBeDetached(input, options?: TimeoutOption): Promise<void>`
+
+Waits until element is detached from DOM. Throws on timeout.
+
+### `waitForElementToBeStabled(input, options?: TimeoutOption): Promise<boolean>`
+
+Waits for element position to stop moving. Polls bounding box coordinates — requires 3 consecutive stable readings. Returns `true` if stable, `false` if max wait exceeded.
+
+### `waitForFirstElementToBeAttached(input, options?: LocatorWaitOptions): Promise<void>`
+
+Waits for the first matching element to be attached. Used internally by `getAllLocators`.
 
 ## Count
 
+### `getLocatorCount(input, options?: LocatorWaitOptions): Promise<number>`
+
+Returns the number of matching elements. Returns `0` on error.
+
+## Frame Functions
+
+### `getFrame(frameSelector: FrameOptions, options?): Frame | null`
+
+Gets a Frame by name or URL. Throws if not found unless `{ force: true }`.
+
 ```typescript
-const count = await ElementUtils.getLocatorCount(locator);
+const frame = getFrame({ name: 'my-iframe' });
+const frame = getFrame({ url: /embed/ });
+```
+
+### `getFrameLocator(frameInput: string | FrameLocator): FrameLocator`
+
+Gets a FrameLocator from a selector or existing FrameLocator.
+
+### `getLocatorInFrame(frameInput, input): Locator`
+
+Gets a locator for an element inside a frame.
+
+```typescript
+const btn = getLocatorInFrame('#my-iframe', '#submit-btn');
+await click(btn); // Works with action utils
+```
+
+## Key Concept: Visible by Default
+
+`getVisibleLocator()` (and by extension all action functions) filters to only visible elements by default. This prevents accidentally interacting with hidden duplicates.
+
+```typescript
+// Returns locator filtered to visible elements
+const loc = getVisibleLocator('#submit');
+
+// Equivalent to:
+const loc = getLocator('#submit', { onlyVisible: true });
+
+// To include hidden elements:
+const loc = getLocator('#submit', { onlyVisible: false });
+```
+
+## Option Types
+
+```typescript
+type LocatorOptions = PlaywrightLocatorOptions & { onlyVisible?: boolean };
+type LocatorWaitOptions = { waitForLocator?: boolean } & TimeoutOption;
+type GetByTextOptions = PlaywrightGetByTextOptions & { onlyVisible?: boolean };
+type GetByRoleTypes = PlaywrightGetByRoleTypes;
+type GetByRoleOptions = PlaywrightGetByRoleOptions;
+type GetByPlaceholderOptions = PlaywrightGetByPlaceholderOptions;
+type FrameOptions = { name?: string; url?: string | RegExp };
 ```

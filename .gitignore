@@ -1,7 +1,4 @@
 
-# Claude Code context (local only)
-CLAUDE.md
-
 # Environment variables
 .env
 
@@ -15,3 +12,4 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+/storage-state/

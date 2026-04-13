@@ -1,30 +1,29 @@
 /**
- * PLP Validation — Uses Storage State with auto-login fallback
+ * PLP Validation — WITHOUT Storage State
  *
- * Attempts to use saved auth state. If the server-side session has expired,
- * falls back to a fresh UI login within the same browser context.
+ * Performs full UI login in beforeEach for every test.
+ * This is the traditional approach — slower but doesn't depend on saved auth.
+ * Use this when you need to test the actual login flow or when storage state is unavailable.
  */
+import * as LandingPage from '../pages/landing-page';
 import * as LoginPage from '../pages/login-page';
 import * as MyAccountPage from '../pages/my-account-page';
 import * as ProductSearchPage from '../pages/product-search-page';
 import * as ProductPage from '../pages/product-page';
 import { test } from '../../main/resources/setup/page-setup.js';
-import { navigateToURL, getPage, saveStorageState } from '../../main/utils/page-utils.js';
-import { getUserAuthPath } from '../storage-setup/cookie-utils.js';
 
-const defaultUser = { username: 'default' };
-const storagePath = getUserAuthPath(defaultUser);
+test.describe.configure({ mode: 'parallel' });
 
-test.describe('Sample tests for automationexercise page @smoke', () => {
+test.describe('PLP Validation — Without Storage State (Full UI Login) @regression', () => {
+  // No storageState — clear any inherited state to ensure fresh login
+  test.use({ storageState: { cookies: [], origins: [] } });
 
-  test.beforeEach('Navigate to My Account with auto-login fallback', async () => {
-    await navigateToURL('/index.php?route=account/account');
-
-    // If session expired and redirected to login, perform fresh login
-    if (getPage().url().includes('account/login')) {
-      await LoginPage.login();
-      await saveStorageState(storagePath);
-    }
+  test.beforeEach('Navigate and login via UI', async () => {
+    await LandingPage.navigateToLandingPage();
+    await LandingPage.verifyLandingPage();
+    await LandingPage.clickLogin();
+    await LoginPage.verifyLoginPage();
+    await LoginPage.login();
     await MyAccountPage.validateMyAccountPage();
   });
 

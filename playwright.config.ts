@@ -42,9 +42,17 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // Storage state setup — logs in users and saves auth to disk
+    {
+      name: 'login-setup',
+      testDir: './src/tests/storage-setup',
+      testMatch: 'login-storage-setup.ts',
+    },
+
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      dependencies: ['login-setup'],
     },
 
     // {
