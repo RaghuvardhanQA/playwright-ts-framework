@@ -200,6 +200,43 @@ Full docs in [`skills/`](skills/) — broken down by utility, pattern, and use c
 
 This framework ships with a `SKILL.md` file that makes it natively usable by AI coding agents (Claude Code and others). The skill teaches the agent everything it needs to write, run, and debug tests in this repo without needing extra explanation.
 
+### Built-in Specialized Agents
+
+Three agents are available in Claude Code for Playwright work. Each has a defined role and browser strategy:
+
+| Agent | Command | Role | Browser Tier |
+|-------|---------|------|-------------|
+| **Planner** | `"plan tests for <feature>"` | Analyses the app, maps user flows, produces a test plan with coverage gaps | Tier 1 — WebFetch (lightweight, reconnaissance) |
+| **Generator** | `"generate a test for <flow>"` | Writes page objects and spec files following this framework's POM conventions | Tier 3 — Full browser (needs real selectors) |
+| **Healer** | `"fix failing test <spec>"` | Diagnoses broken tests, finds updated selectors, patches page objects | Tier 1 → Tier 3 (starts lite, escalates if needed) |
+
+#### Browser strategy tiers
+
+The agents follow a three-tier browser strategy defined in [`skills/utils/browser-strategy.md`](skills/utils/browser-strategy.md):
+
+| Tier | Tool | Cost | When to use |
+|------|------|------|-------------|
+| **Tier 1 — Lite** | `WebFetch` | ~200–1000 tokens | Reconnaissance — page structure, static content, link discovery |
+| **Tier 2 — Snapshot** | `playwright-cli snapshot` | ~500–2000 tokens | Interactive discovery — element refs, JS-rendered UI |
+| **Tier 3 — Full** | `playwright-cli` actions | ~50–200 tokens/action | Selector capture — clicking, filling, verifying real behaviour |
+
+#### How `SKILL.md` enables agents
+
+The `SKILL.md` at the root contains a frontmatter block that Claude Code reads to auto-load the skill:
+
+```yaml
+---
+name: playwright-ts-framework
+description: Use when writing Playwright tests in TypeScript, implementing Page Object Model...
+license: MIT
+metadata:
+  author: RaghuvardhanQA
+  version: "1.0"
+---
+```
+
+When the skill is active, agents automatically know the framework conventions, utility APIs, locator strategy, and validation loop — no manual explanation needed.
+
 ### What the skill covers
 
 | Category | Files |
@@ -227,26 +264,26 @@ skills/
 │   ├── page-utils.md            # navigation, storage state, load states
 │   ├── api-utils.md             # HTTP requests
 │   ├── locator-strategy.md      # Choosing the right locator
-│   └── browser-strategy.md      # Minimising browser token usage
+│   └── browser-strategy.md      # Three-tier browser strategy for agents
 ├── reference/
 │   └── target-application.md    # Site URLs, selectors, user flows
 ├── playwright-cli/
-│   ├── SKILL.md                 # Playwright CLI quick start
+│   ├── SKILL.md                 # Playwright CLI quick start and command reference
 │   └── references/
-│       ├── request-mocking.md
-│       ├── running-code.md
-│       ├── session-management.md
-│       ├── storage-state.md
-│       ├── test-generation.md
-│       ├── tracing.md
-│       └── video-recording.md
+│       ├── request-mocking.md   # Intercepting and mocking network requests
+│       ├── running-code.md      # Executing custom Playwright code
+│       ├── session-management.md # Managing browser sessions
+│       ├── storage-state.md     # Cookies, localStorage, auth state
+│       ├── test-generation.md   # Auto-generating test code
+│       ├── tracing.md           # Capturing execution traces
+│       └── video-recording.md   # Recording test runs as video
 └── ci-cd/
     └── running-tests.md         # Local run commands and GitHub Actions setup
 ```
 
 ### Test validation loop (for agents)
 
-When an agent writes or modifies tests it must follow this loop before committing:
+When an agent writes or modifies tests it **must** follow this loop before committing:
 
 1. Write the page object and spec
 2. Run `npx playwright test <spec> --project=chromium --reporter=line`
