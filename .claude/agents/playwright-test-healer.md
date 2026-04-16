@@ -133,3 +133,24 @@ Use standard Playwright CLI for running tests:
   and add a comment before the failing step explaining what is happening instead of expected behavior
 - Do not ask user questions; do the most reasonable thing possible to pass the test
 - Never wait for networkidle or use other discouraged or deprecated APIs
+- **3× stability validation** — after fixing, run the spec 3 consecutive times before declaring success. Report results as a `Run | Result | Duration` markdown table. A single green run is not enough.
+
+## Common failure patterns and fixes
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| `locator.boundingBox: Timeout` inside `waitForElementToBeStabled` | `.first()` resolved to a hidden duplicate (e.g. mobile-sticky button) | Use `getVisibleLocator(selector).first()` so visibility filter is baked in before `boundingBox()` runs |
+| `subtree intercepts pointer events` on a PLP card button | Hover overlay div covering the button | Switch to `clickByJS(locator)` |
+| Strict-mode violation on cart page selectors | OpenCart renders duplicate totals tables / checkout links | Add `.first()` or use a more specific selector like `a.btn-primary[href*="checkout/checkout"]` |
+| Toast covers the search submit button | Bootstrap toast with 10 s auto-dismiss intercepts the click | Wait for the toast to dismiss before clicking the button |
+| Wrong product card clicked (multiple variants share a name) | Out-of-stock duplicate is the first match | Pass an optional `productId` and filter on `h4 a[href*="product_id=<id>"]` |
+| Search-results URL regex never matches | Browser URL-encodes the slash | Match `product%2Fsearch`, not `product/search` |
+
+## Don't reintroduce anti-patterns while healing
+
+If you are tempted to "just fix it" by inserting one of these — **don't**. Refactor instead:
+
+- **Deep-link `navigateToURL('/index.php?route=...')`** — page objects and specs must reach inner pages via real UI flows (header search → click card; header cart icon → "View Cart" drawer link). Only `navigateToURL('/')` is acceptable as an entry point.
+- **Inline `async function` helpers in spec files** — composite multi-step flows belong on the page object that owns the result (e.g. `ProductPage.addProductToCart(name)`), never as local helpers in the spec.
+- **`:visible` jQuery pseudo in selectors** — use `getVisibleLocator(selector)` instead.
+- **Fighting an overlay with retries or waits** — use `clickByJS` to bypass pointer-event interception.
