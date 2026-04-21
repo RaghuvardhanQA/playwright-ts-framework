@@ -32,7 +32,10 @@ export async function verifyProductPageIsDisplayed(): Promise<void> {
 }
 
 export async function verifyAddToCartIsEnabled(): Promise<void> {
-    await expectElementToBeEnabled(getLocator(ADD_TO_CART_BTN).first());
+    // Use :not([disabled]) to target only the enabled add-to-cart button.
+    // Out-of-stock PDPs render button.btn-cart with the disabled attribute set —
+    // this selector ignores those and asserts the enabled button is present.
+    await expectElementToBeEnabled(getLocator('button.btn-cart:not([disabled])').first());
 }
 
 // ── Add-to-cart interactions ───────────────────────────────────────────────────

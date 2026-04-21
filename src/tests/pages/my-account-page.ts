@@ -1,13 +1,12 @@
 import { fill, clickAndNavigate } from "#utils/action-utils";
-import { getLocator, waitForElementToBeHidden } from "#utils/element-utils";
+import { getLocator, getVisibleLocator, waitForElementToBeHidden } from "#utils/element-utils";
 import { expectPageToHaveTitle } from "#utils/expect-utils";
 
 // --- Locators ---
 const SEARCH_INPUT  = "input[name='search']";
-// Scoped to the visible search form to avoid matching other submit buttons on the page
-// (e.g. the hidden "Send message" form on PDPs). The :visible pseudo-class on the form
-// ensures we always pick the active header search submit button.
-const SEARCH_SUBMIT = 'form[action*="search"]:visible button[type="submit"]';
+// Scoped to the header search submit button. getVisibleLocator ensures we only match
+// the visible header search button and never the hidden "Send message" button on PDPs.
+const SEARCH_SUBMIT = 'form[action*="search"] button[type="submit"]';
 // Success toast container — may be visible and cover the SEARCH button (at y≈25) when
 // a product has just been added to cart. We wait for it to be hidden before searching.
 const TOAST_CONTAINER = '#notification-box-top .toast.show';
@@ -28,8 +27,8 @@ export async function validateMyAccountPage() {
  *   x=873,y=25. When a product was just added to the cart, calling this immediately
  *   would time out with "pointer events intercepted by toast". We wait for any visible
  *   toast to dismiss first (the site auto-dismisses after ~10 s).
- * - The selector is scoped to `form[action*="search"]:visible button[type="submit"]`
- *   so it never matches the hidden "Send message" button on PDPs.
+ * - getVisibleLocator is used on SEARCH_SUBMIT so only the visible header search button
+ *   is matched, never the hidden "Send message" button on PDPs.
  *
  * @param keyword - Text to search for (e.g. 'HP LP3065', 'iPod Nano')
  */
@@ -41,5 +40,5 @@ export async function searchForProduct(keyword: string): Promise<void> {
         await waitForElementToBeHidden(toastLocator, { timeout: TOAST_DISMISS_TIMEOUT });
     }
     await fill(SEARCH_INPUT, keyword);
-    await clickAndNavigate(getLocator(SEARCH_SUBMIT).first());
+    await clickAndNavigate(getVisibleLocator(SEARCH_SUBMIT).first());
 }
