@@ -71,8 +71,21 @@ export async function clickFirstProductQuickAddToCart(): Promise<void> {
     await clickByJS(getLocator(PLP_QUICK_ADD_BTN).first());
 }
 
+/**
+ * Clicks the title link of a product card that leads to an in-stock PDP.
+ *
+ * Background: searching for "Mac book" returns 6 cards — product_ids 43/44/45 (the
+ * first three) show an enabled btn-cart on the PLP but are OUT OF STOCK on their PDPs.
+ * Products 60/61/62 (the second group) are genuinely in-stock on their PDPs.
+ * This is an OpenCart site data inconsistency (PLP vs PDP stock display mismatch).
+ *
+ * Strategy: navigate using product_id=60 (MacBook) which is confirmed in-stock and
+ * appears consistently in the "Mac book" search results. The href filter
+ * `product_id=60` is URL-safe and unique among the search results.
+ */
 export async function clickProduct(): Promise<void> {
-    await clickAndNavigate(getLocator(PRODUCT_LINK).first());
+    const inStockLink = getLocator('h4 a[href*="product_id=60"]');
+    await clickAndNavigate(inStockLink.first());
 }
 
 /**
