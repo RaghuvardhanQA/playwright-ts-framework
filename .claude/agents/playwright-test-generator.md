@@ -117,3 +117,17 @@ test.describe('Test Suite Name', () => {
 - Assertions belong in page objects (`verify*` methods), not directly in spec files
 - Follow the locator strategy priority: data-testid > data-* > id > name > XPath > CSS > role/text
 - Include a comment with the step description before each action
+- **No deep-link URL navigation.** Never translate `page.goto('/index.php?route=...')` from CLI output into `navigateToURL('/index.php?route=...')`. Reach inner pages (PDP, cart, search results) by clicking through the UI:
+  - PDP → land on `/`, search via header (`MyAccountPage.searchForProduct`), click matching card (`ProductSearchPage.clickProductCardByName(name, productId?)`)
+  - Cart → click the header cart icon and "View Cart" in the drawer (`CartPage.openCart()`)
+  - Search results → use the header search box on `/`
+  - The only acceptable `navigateToURL` is the entry point — typically `navigateToURL('/')`
+- **No helper functions inside spec files.** If two or more tests need the same multi-step setup, expose it as an exported `async function` on the corresponding page object (e.g. `ProductPage.addProductToCart('HP LP3065')`). Specs only orchestrate page-object calls and assertions.
+- **Prefer `getVisibleLocator(selector)` over the jQuery `:visible` pseudo.** Playwright does not support `:visible` reliably as a CSS pseudo; using it (or chaining `.first()` against a hidden mobile-sticky duplicate) causes `boundingBox()` timeouts inside stability checks.
+- **Use `clickByJS(locator)` to bypass pointer-event interception.** When an element is covered by a hover overlay (common on PLP product cards), normal `click` times out with `subtree intercepts pointer events` — switch to `clickByJS` rather than fighting the overlay.
+- **Disambiguate duplicate cards with an optional `productId`.** When several cards share a name (e.g. multiple "iPod Nano" variants where the first is out-of-stock), `clickProductCardByName` should accept an optional id and filter on `h4 a[href*="product_id=<id>"]`.
+- **Add `.first()` on cart-page selectors** that may render twice (OpenCart renders duplicate totals tables / checkout links). Use a more specific selector like `a.btn-primary[href*="checkout/checkout"]` for the checkout button.
+
+## Translation note: page.goto
+
+The translation table above maps `page.goto(url)` → `navigateToURL(url)`. This applies **only** to the entry point (`/`). For any inner page URL captured by `playwright-cli`, do not translate it directly — instead, write the page-object UI flow that gets there.

@@ -55,3 +55,10 @@ export async function verifyLoginSuccess(): Promise<void> {
 5. **Locator selectors as constants** at the top of each file
 6. **One page object file per page** — search triggers in `my-account-page.ts`, but results live in `search-results-page.ts`
 7. **Use `clickAndNavigate` when the click causes a page/URL change** (e.g. login button, product link, nav links). Use `click` for same-page interactions (e.g. filters, checkboxes, dropdowns)
+8. **No deep-link URL navigation** — page objects must reach inner pages through real UI flows, not by deep-linking with `navigateToURL('/index.php?route=...')`. Examples:
+   - To open a PDP: land on `/`, search via the header, click the matching product card. Don't call `navigateToURL('/index.php?route=product/product&product_id=47')`.
+   - To open the cart: click the header cart icon and the "View Cart" link in the dropdown drawer. Don't call `navigateToURL('/index.php?route=checkout/cart')`.
+   - To open search results: use the header search box on `/`. Don't deep-link to `/index.php?route=product/search&search=...`.
+   - The only acceptable `navigateToURL` call is the entry point — typically `navigateToURL('/')` at the start of a flow.
+9. **Composite flows belong in page objects, not specs** — if multiple tests need the same multi-step setup (e.g. "search → click card → add to cart → wait for toast"), expose it as a single exported `async function` on the page object that owns the *result* of the flow. Spec files must not define local `async function` helpers.
+10. **Disambiguate duplicate cards with an optional id** — when several product cards share a name (e.g. multiple "iPod Nano" variants where one is out-of-stock), accept an optional `productId` parameter and filter on `h4 a[href*="product_id=<id>"]` so the right card is clicked.

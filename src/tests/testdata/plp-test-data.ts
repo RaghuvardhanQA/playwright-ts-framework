@@ -30,6 +30,22 @@ export interface User {
   username: string;
 }
 
+/**
+ * Represents a product used in add-to-cart test scenarios.
+ * Only products with no minimum-quantity restriction and confirmed in-stock
+ * status should appear in this array.
+ */
+export interface CartProduct {
+  /** Display name as it appears on the site (used in toast and cart assertions) */
+  name: string;
+  /** OpenCart product_id query parameter value */
+  productId: number;
+  /** Unit price as shown on the PDP and in the cart unit-price column (pre-tax) */
+  expectedPrice: string;
+  /** Search term used when testing add-from-PLP quick-add button */
+  searchTerm: string;
+}
+
 // ── Product search data ────────────────────────────────────────────────────────
 
 export const macBook: Product = {
@@ -93,3 +109,27 @@ export const sortOptions: SortOption[] = [
 export const defaultUser: User = {
   username: 'default',
 };
+
+// ── Cart products ──────────────────────────────────────────────────────────────
+// Only products with no minimum-quantity restriction and confirmed in-stock status.
+// product_id=47 (HP LP3065) and product_id=30 (Canon EOS 5D) both have qty default=1
+// and no min-qty restriction. Products 40–43 require minimum quantity=2 and must NOT
+// appear here — they belong to the negative test data only.
+
+export const cartProducts: CartProduct[] = [
+  {
+    name: 'HP LP3065',
+    productId: 47,
+    expectedPrice: '$122.00',
+    searchTerm: 'HP LP3065',
+  },
+  {
+    // Canon EOS 5D (product_id=30) requires mandatory "Size" option selection before
+    // add-to-cart, so it cannot be added without UI option interaction.
+    // iPod Nano (product_id=57) has no options, is in stock, and adds cleanly.
+    name: 'iPod Nano',
+    productId: 57,
+    expectedPrice: '$122.00',
+    searchTerm: 'iPod Nano',
+  },
+];

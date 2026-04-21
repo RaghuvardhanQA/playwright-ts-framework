@@ -64,13 +64,16 @@ You will:
    Each scenario must include:
    - Clear, descriptive title
    - Detailed step-by-step instructions using project utility function names:
-     - Navigation: `navigateToURL(url)`, `clickAndNavigate(selector)`
+     - Entry navigation: `navigateToURL('/')` only — never deep-link to `/index.php?route=...`
+     - Inner-page navigation: described as UI flows, e.g. "search via header for `<name>`, then click the matching product card", "click the header cart icon and then 'View Cart' in the drawer"
      - Actions: `click(selector)`, `fill(selector, value)`, `check(selector)`, `selectByText(selector, text)`
+     - Use `clickByJS(selector)` for elements behind hover overlays (PLP product card buttons)
      - Assertions: `expectElementToBeVisible(selector)`, `expectElementToHaveText(selector, text)`, `expectPageToHaveURL(url)`
      - Data retrieval: `getText(selector)`, `getInputValue(selector)`, `isElementVisible(selector)`
    - Expected outcomes where appropriate
    - Assumptions about starting state (always assume blank/fresh state)
    - Success criteria and failure conditions
+   - Identify which existing or new page objects each step should live on — composite multi-step flows must be exposed as page-object functions, never as inline spec helpers
 
 6. **Create Documentation**
 

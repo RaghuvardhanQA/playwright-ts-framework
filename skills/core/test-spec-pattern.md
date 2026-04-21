@@ -33,6 +33,8 @@ test.describe('Login flow @smoke', () => {
 - **Tag test suites** with `@smoke`, `@regression`, or feature tags
 - **Soft assertions** only when the test must continue after a non-critical check
 - Import page objects as `* as PageName` namespace imports
+- **No inline helper functions** — never define a local `async function` inside a spec file. If two or more tests share setup (e.g. "add HP LP3065 to cart"), put that flow in the corresponding page object as a single exported function (e.g. `ProductPage.addProductToCart('HP LP3065')`) and call it from the test.
+- **No deep-link URL navigation in specs** — do not call `navigateToURL('/index.php?route=...')` to jump to a PDP, cart, or search results. Use the page-object UI flows: header search, card click, cart icon click. The only acceptable `navigateToURL` is the entry-point landing on `/`.
 
 ## Running Tests
 

@@ -13,3 +13,6 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 /storage-state/
+
+# Claude Code
+.claude/settings.local.json
